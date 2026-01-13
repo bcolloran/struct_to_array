@@ -1,5 +1,6 @@
 use quote::quote;
 use syn::{DeriveInput, parse_quote};
+use pretty_assertions::assert_eq;
 
 /// Helper function to expand the StructToArray macro for testing
 fn expand_struct_to_array(input: DeriveInput) -> proc_macro2::TokenStream {

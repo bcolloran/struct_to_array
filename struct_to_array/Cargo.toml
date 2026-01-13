@@ -6,3 +6,6 @@ edition = "2024"
 
 [dependencies]
 struct_to_array_derive = { path = "../struct_to_array_derive" }
+
+[dev-dependencies]
+proptest = "1"

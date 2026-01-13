@@ -1,3 +1,4 @@
+use pretty_assertions::assert_eq;
 use quote::quote;
 use syn::{DeriveInput, parse_quote};
 
