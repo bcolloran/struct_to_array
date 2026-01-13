@@ -1,4 +1,4 @@
-use syn::{parse_quote, DeriveInput};
+use syn::{DeriveInput, parse_quote};
 
 /// Helper function to expand the StructToArray macro for testing
 fn expand_struct_to_array(input: DeriveInput) -> proc_macro2::TokenStream {
@@ -34,9 +34,11 @@ fn test_crate_attribute_custom_path() {
     let actual = expand_struct_to_array(input);
 
     // Should use `::my_custom_struct_to_array::StructToArray`
-    assert!(actual
-        .to_string()
-        .contains(":: my_custom_struct_to_array :: StructToArray"));
+    assert!(
+        actual
+            .to_string()
+            .contains(":: my_custom_struct_to_array :: StructToArray")
+    );
 }
 
 #[test]
