@@ -26,7 +26,7 @@ where
     Item: Clone,
 {
     fn to_vec(self) -> Vec<Item>;
-    fn from_vec(v: &Vec<Item>) -> Self;
+    fn from_vec(v: &[Item]) -> Self;
 }
 
 impl<S, Item, const N: usize> StructToVec<Item, N> for S
@@ -40,7 +40,7 @@ where
         arr.to_vec()
     }
     #[inline]
-    fn from_vec(v: &Vec<Item>) -> Self {
+    fn from_vec(v: &[Item]) -> Self {
         assert!(
             v.len() == N,
             "Input vec length {} does not match expected {}",
