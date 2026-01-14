@@ -8,23 +8,22 @@ Convert between homogeneous structs (all fields the same type) and fixed-size ar
 use struct_to_array::StructToArray;
 
 #[derive(StructToArray)]
+#[struct_to_array(crate = "struct_to_array")]
 struct Point3D {
     x: f64,
     y: f64,
     z: f64,
 }
 
-fn main() {
-    let point = Point3D { x: 1.0, y: 2.0, z: 3.0 };
-    
-    // Convert to array
-    let arr = point.to_arr();
-    assert_eq!(arr, [1.0, 2.0, 3.0]);
-    
-    // Convert back from array
-    let point = Point3D::from_arr(arr);
-    assert_eq!(point.x, 1.0);
-}
+let point = Point3D { x: 1.0, y: 2.0, z: 3.0 };
+
+// Convert to array
+let arr = point.to_arr();
+assert_eq!(arr, [1.0, 2.0, 3.0]);
+
+// Convert back from array
+let point = Point3D::from_arr(arr);
+assert_eq!(point.x, 1.0);
 ```
 
 ## Features

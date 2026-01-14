@@ -1,3 +1,4 @@
+#![doc = include_str!("../../README.md")]
 //! Value-to-value conversions between a uniform-field struct and a fixed-size array.
 
 /// Convert between a homogeneous struct (all fields of type `Item`) and `[Item; N]`.
