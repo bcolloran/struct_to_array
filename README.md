@@ -47,6 +47,98 @@ Add to your `Cargo.toml`:
 struct_to_array = { path = "struct_to_array" }
 ```
 
+## More Examples
+
+### Tuple Structs
+
+```rust
+use struct_to_array::StructToArray;
+
+#[derive(StructToArray)]
+#[struct_to_array(crate = "struct_to_array")]
+struct Pair(i32, i32);
+
+let pair = Pair(10, 20);
+let arr = pair.to_arr();
+assert_eq!(arr, [10, 20]);
+
+let reconstructed = Pair::from_arr([30, 40]);
+assert_eq!(reconstructed.0, 30);
+assert_eq!(reconstructed.1, 40);
+```
+
+### Generic Types
+
+```rust
+use struct_to_array::StructToArray;
+
+#[derive(StructToArray)]
+#[struct_to_array(crate = "struct_to_array")]
+struct GenericPair<T> {
+    first: T,
+    second: T,
+}
+
+let string_pair = GenericPair {
+    first: "hello".to_string(),
+    second: "world".to_string(),
+};
+let arr = string_pair.to_arr();
+assert_eq!(arr[0], "hello");
+assert_eq!(arr[1], "world");
+```
+
+### Vec Conversion
+
+```rust
+use struct_to_array::{StructToArray, StructToVec};
+
+#[derive(StructToArray)]
+#[struct_to_array(crate = "struct_to_array")]
+struct Point2D {
+    x: f32,
+    y: f32,
+}
+
+let point = Point2D { x: 3.0, y: 4.0 };
+
+// Convert to Vec
+let vec = point.to_vec();
+assert_eq!(vec, vec![3.0, 4.0]);
+
+// Convert from Vec
+let point2 = Point2D::from_vec(&vec);
+assert_eq!(point2.x, 3.0);
+assert_eq!(point2.y, 4.0);
+```
+
+### Non-Copy Types
+
+The trait works with move-only types that don't implement `Copy`:
+
+```rust
+use struct_to_array::StructToArray;
+
+#[derive(StructToArray)]
+#[struct_to_array(crate = "struct_to_array")]
+struct VecPair {
+    first: Vec<i32>,
+    second: Vec<i32>,
+}
+
+let pair = VecPair {
+    first: vec![1, 2, 3],
+    second: vec![4, 5, 6],
+};
+
+let arr = pair.to_arr();
+assert_eq!(arr[0], vec![1, 2, 3]);
+assert_eq!(arr[1], vec![4, 5, 6]);
+
+let reconstructed = VecPair::from_arr(arr);
+assert_eq!(reconstructed.first, vec![1, 2, 3]);
+```
+
 ## License
 
 MIT OR Apache-2.0
