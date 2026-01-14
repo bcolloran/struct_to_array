@@ -223,10 +223,10 @@ fn test_single_field_struct() {
         value: f32,
     }
 
-    let single = Single { value: 3.14 };
+    let single = Single { value: 2.5 };
     let arr = single.to_arr();
-    assert_eq!(arr, [3.14]);
+    assert_eq!(arr, [2.5]);
 
     let single2 = Single::from_arr(arr);
-    assert_eq!(single2, Single { value: 3.14 });
+    assert_eq!(single2, Single { value: 2.5 });
 }
