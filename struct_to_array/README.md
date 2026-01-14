@@ -17,6 +17,7 @@ struct Point3D {
     z: f64,
 }
 
+# fn main() {
 let point = Point3D { x: 1.0, y: 2.0, z: 3.0 };
 
 // Convert to array
@@ -26,6 +27,7 @@ assert_eq!(arr, [1.0, 2.0, 3.0]);
 // Convert back from array
 let point = Point3D::from_arr(arr);
 assert_eq!(point.x, 1.0);
+# }
 ```
 
 ## Features
@@ -46,7 +48,7 @@ Add to your `Cargo.toml`:
 
 ```toml
 [dependencies]
-struct_to_array = { path = "struct_to_array" }
+struct_to_array = "0.1"
 ```
 
 ## More Examples
@@ -59,6 +61,7 @@ use struct_to_array::StructToArray;
 #[derive(StructToArray)]
 struct Pair(i32, i32);
 
+# fn main() {
 let pair = Pair(10, 20);
 let arr = pair.to_arr();
 assert_eq!(arr, [10, 20]);
@@ -66,6 +69,7 @@ assert_eq!(arr, [10, 20]);
 let reconstructed = Pair::from_arr([30, 40]);
 assert_eq!(reconstructed.0, 30);
 assert_eq!(reconstructed.1, 40);
+# }
 ```
 
 ### Generic Types
@@ -79,6 +83,7 @@ struct GenericPair<T> {
     second: T,
 }
 
+# fn main() {
 let string_pair = GenericPair {
     first: "hello".to_string(),
     second: "world".to_string(),
@@ -86,6 +91,7 @@ let string_pair = GenericPair {
 let arr = string_pair.to_arr();
 assert_eq!(arr[0], "hello");
 assert_eq!(arr[1], "world");
+# }
 ```
 
 ### Vec Conversion
@@ -99,6 +105,7 @@ struct Point2D {
     y: f32,
 }
 
+# fn main() {
 let point = Point2D { x: 3.0, y: 4.0 };
 
 // Convert to Vec
@@ -109,6 +116,7 @@ assert_eq!(vec, vec![3.0, 4.0]);
 let point2 = Point2D::from_vec(&vec);
 assert_eq!(point2.x, 3.0);
 assert_eq!(point2.y, 4.0);
+# }
 ```
 
 ### Non-Copy Types
@@ -124,6 +132,7 @@ struct VecPair {
     second: Vec<i32>,
 }
 
+# fn main() {
 let pair = VecPair {
     first: vec![1, 2, 3],
     second: vec![4, 5, 6],
@@ -135,15 +144,9 @@ assert_eq!(arr[1], vec![4, 5, 6]);
 
 let reconstructed = VecPair::from_arr(arr);
 assert_eq!(reconstructed.first, vec![1, 2, 3]);
+# }
 ```
 
 ## License
 
 MIT OR Apache-2.0
-
-## LLM Notice
-This was written to my spec, but entirely by LLM. It could contain errors, but my spec included a mandate for quite a lot of property-based testing. I've only looked through this quickly, but the proptests look good and cover a huge variety of cases, way more than I would have ever had the patience to write myself.
-
-This is good enough for me, perhaps for you too :-)
-
-But if you find any mistakes, please open an issue or PR!

@@ -7,7 +7,7 @@ description = "Convert between homogeneous structs and fixed-size arrays"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/bcolloran/struct_to_array"
 documentation = "https://docs.rs/struct_to_array"
-readme = "README.md"
+readme = "../README.md"
 keywords = ["struct", "array", "conversion", "derive", "macro"]
 categories = ["data-structures", "no-std", "rust-patterns"]
 
