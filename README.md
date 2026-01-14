@@ -1,5 +1,8 @@
 # struct_to_array
 
+[![CI](https://github.com/bcolloran/struct_to_array/actions/workflows/ci.yml/badge.svg)](https://github.com/bcolloran/struct_to_array/actions/workflows/ci.yml)
+[![codecov](https://codecov.io/gh/bcolloran/struct_to_array/branch/main/graph/badge.svg)](https://codecov.io/gh/bcolloran/struct_to_array)
+
 Convert between homogeneous structs (all fields the same type) and fixed-size arrays.
 
 ## Usage
