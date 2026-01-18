@@ -1,6 +1,6 @@
 [package]
 name = "struct_to_array_derive"
-version = "0.1.1"
+version = "0.2.1"
 edition = "2024"
 authors = ["struct_to_array contributors"]
 description = "Derive macro for struct_to_array"
