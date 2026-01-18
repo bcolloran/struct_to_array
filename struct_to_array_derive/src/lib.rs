@@ -6,7 +6,7 @@ use syn::{Data, DeriveInput, Error, Fields, Ident, LitStr, parse_macro_input, sp
 #[cfg(test)]
 mod tests;
 
-/// Derive `struct_to_array::StructToArray<Item, N>` for a struct whose fields are all the same
+/// Derive `struct_to_array::StructToArray<Item>` for a struct whose fields are all the same
 /// type (token-identical).
 ///
 /// Supported:
@@ -85,21 +85,18 @@ fn expand_struct_to_array(input: &DeriveInput) -> syn::Result<proc_macro2::Token
 
             let to_elems = field_idents.iter().map(|id| quote!(self.#id));
 
-            // Move out of the array without requiring `Item: Copy`:
-            // let [x, y, z] = a;
-            // Self { x, y, z }
             let expanded = quote! {
-                impl #impl_generics #trait_path<#item_ty, #n_lit> for #name #ty_generics #where_clause {
-                    const N_ATOMS: usize = #n_lit;
+                impl #impl_generics #trait_path<#item_ty> for #name #ty_generics #where_clause {
+                    type Arr = [#item_ty; #n_lit];
 
                     #[inline]
-                    fn to_arr(self) -> [#item_ty; #n_lit] {
+                    fn to_arr(self) -> Self::Arr {
                         [#(#to_elems),*]
                     }
 
                     #[inline]
-                    fn from_arr(a: [#item_ty; #n_lit]) -> Self {
-                        let [#(#field_idents),*] = a;
+                    fn from_arr(arr: Self::Arr) -> Self {
+                        let [#(#field_idents),*] = arr;
                         Self { #(#field_idents),* }
                     }
                 }
@@ -139,24 +136,23 @@ fn expand_struct_to_array(input: &DeriveInput) -> syn::Result<proc_macro2::Token
             let idxs: Vec<syn::Index> = (0..n).map(syn::Index::from).collect();
             let to_elems = idxs.iter().map(|i| quote!(self.#i));
 
-            // Bindings for destructuring the array: let [v0, v1, ...] = a;
+            // Bindings for destructuring the array: let [v0, v1, ...] = arr;
             let binds: Vec<Ident> = (0..n)
                 .map(|i| Ident::new(&format!("__v{}", i), Span::call_site()))
                 .collect();
 
             let expanded = quote! {
-                impl #impl_generics #trait_path<#item_ty, #n_lit> for #name #ty_generics #where_clause {
-
-                    const N_ATOMS: usize = #n_lit;
+                impl #impl_generics #trait_path<#item_ty> for #name #ty_generics #where_clause {
+                    type Arr = [#item_ty; #n_lit];
 
                     #[inline]
-                    fn to_arr(self) -> [#item_ty; #n_lit] {
+                    fn to_arr(self) -> Self::Arr {
                         [#(#to_elems),*]
                     }
 
                     #[inline]
-                    fn from_arr(a: [#item_ty; #n_lit]) -> Self {
-                        let [#(#binds),*] = a;
+                    fn from_arr(arr: Self::Arr) -> Self {
+                        let [#(#binds),*] = arr;
                         Self(#(#binds),*)
                     }
                 }

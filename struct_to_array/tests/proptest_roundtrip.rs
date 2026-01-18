@@ -125,11 +125,13 @@ proptest! {
     }
 
     #[test]
-    fn prop_n_atoms_matches_num_fields(x: f64, y: f64, z: f64) {
+    fn prop_array_length_matches_num_fields(x: f64, y: f64, z: f64) {
         prop_assume!(!x.is_nan() && !y.is_nan() && !z.is_nan());
 
-        // N_ATOMS const should match num_fields()
-        prop_assert_eq!(Point3D::N_ATOMS, Point3D::num_fields());
+        // The array type's length should match num_fields()
+        let point = Point3D { x, y, z };
+        let arr = point.to_arr();
+        prop_assert_eq!(arr.len(), Point3D::num_fields());
     }
 }
 

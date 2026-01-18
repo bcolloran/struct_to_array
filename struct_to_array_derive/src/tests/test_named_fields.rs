@@ -18,17 +18,17 @@ fn test_named_fields_two_fields() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<f32, 2> for Point2D {
-            const N_ATOMS: usize = 2;
+        impl ::struct_to_array::StructToArray<f32> for Point2D {
+            type Arr = [f32; 2];
 
             #[inline]
-            fn to_arr(self) -> [f32; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.x, self.y]
             }
 
             #[inline]
-            fn from_arr(a: [f32; 2]) -> Self {
-                let [x, y] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [x, y] = arr;
                 Self { x, y }
             }
         }
@@ -49,17 +49,17 @@ fn test_named_fields_three_fields() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<f64, 3> for Point3D {
-            const N_ATOMS: usize = 3;
+        impl ::struct_to_array::StructToArray<f64> for Point3D {
+            type Arr = [f64; 3];
 
             #[inline]
-            fn to_arr(self) -> [f64; 3] {
+            fn to_arr(self) -> Self::Arr {
                 [self.x, self.y, self.z]
             }
 
             #[inline]
-            fn from_arr(a: [f64; 3]) -> Self {
-                let [x, y, z] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [x, y, z] = arr;
                 Self { x, y, z }
             }
         }
@@ -78,17 +78,17 @@ fn test_named_fields_single_field() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<i32, 1> for SingleValue {
-            const N_ATOMS: usize = 1;
+        impl ::struct_to_array::StructToArray<i32> for SingleValue {
+            type Arr = [i32; 1];
 
             #[inline]
-            fn to_arr(self) -> [i32; 1] {
+            fn to_arr(self) -> Self::Arr {
                 [self.value]
             }
 
             #[inline]
-            fn from_arr(a: [i32; 1]) -> Self {
-                let [value] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [value] = arr;
                 Self { value }
             }
         }
@@ -111,17 +111,17 @@ fn test_named_fields_many_fields() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<f32, 5> for ManyFloats {
-            const N_ATOMS: usize = 5;
+        impl ::struct_to_array::StructToArray<f32> for ManyFloats {
+            type Arr = [f32; 5];
 
             #[inline]
-            fn to_arr(self) -> [f32; 5] {
+            fn to_arr(self) -> Self::Arr {
                 [self.a, self.b, self.c, self.d, self.e]
             }
 
             #[inline]
-            fn from_arr(a: [f32; 5]) -> Self {
-                let [a, b, c, d, e] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [a, b, c, d, e] = arr;
                 Self { a, b, c, d, e }
             }
         }
@@ -141,17 +141,17 @@ fn test_named_fields_complex_type() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<Vec<String>, 2> for ComplexPair {
-            const N_ATOMS: usize = 2;
+        impl ::struct_to_array::StructToArray<Vec<String> > for ComplexPair {
+            type Arr = [Vec<String>; 2];
 
             #[inline]
-            fn to_arr(self) -> [Vec<String>; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [Vec<String>; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
@@ -171,17 +171,17 @@ fn test_named_fields_with_pub() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<f32, 2> for PublicPoint {
-            const N_ATOMS: usize = 2;
+        impl ::struct_to_array::StructToArray<f32> for PublicPoint {
+            type Arr = [f32; 2];
 
             #[inline]
-            fn to_arr(self) -> [f32; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.x, self.y]
             }
 
             #[inline]
-            fn from_arr(a: [f32; 2]) -> Self {
-                let [x, y] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [x, y] = arr;
                 Self { x, y }
             }
         }

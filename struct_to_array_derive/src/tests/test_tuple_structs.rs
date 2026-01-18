@@ -15,17 +15,17 @@ fn test_tuple_struct_two_fields() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<f32, 2> for Pair {
-            const N_ATOMS: usize = 2;
+        impl ::struct_to_array::StructToArray<f32> for Pair {
+            type Arr = [f32; 2];
 
             #[inline]
-            fn to_arr(self) -> [f32; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0, self.1]
             }
 
             #[inline]
-            fn from_arr(a: [f32; 2]) -> Self {
-                let [__v0, __v1] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0, __v1] = arr;
                 Self(__v0, __v1)
             }
         }
@@ -42,17 +42,17 @@ fn test_tuple_struct_three_fields() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<i32, 3> for Triple {
-            const N_ATOMS: usize = 3;
+        impl ::struct_to_array::StructToArray<i32> for Triple {
+            type Arr = [i32; 3];
 
             #[inline]
-            fn to_arr(self) -> [i32; 3] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0, self.1, self.2]
             }
 
             #[inline]
-            fn from_arr(a: [i32; 3]) -> Self {
-                let [__v0, __v1, __v2] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0, __v1, __v2] = arr;
                 Self(__v0, __v1, __v2)
             }
         }
@@ -69,17 +69,17 @@ fn test_tuple_struct_single_field() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<String, 1> for Wrapper {
-            const N_ATOMS: usize = 1;
+        impl ::struct_to_array::StructToArray<String> for Wrapper {
+            type Arr = [String; 1];
 
             #[inline]
-            fn to_arr(self) -> [String; 1] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0]
             }
 
             #[inline]
-            fn from_arr(a: [String; 1]) -> Self {
-                let [__v0] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0] = arr;
                 Self(__v0)
             }
         }
@@ -96,17 +96,17 @@ fn test_tuple_struct_many_fields() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<u64, 6> for ManyInts {
-            const N_ATOMS: usize = 6;
+        impl ::struct_to_array::StructToArray<u64> for ManyInts {
+            type Arr = [u64; 6];
 
             #[inline]
-            fn to_arr(self) -> [u64; 6] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0, self.1, self.2, self.3, self.4, self.5]
             }
 
             #[inline]
-            fn from_arr(a: [u64; 6]) -> Self {
-                let [__v0, __v1, __v2, __v3, __v4, __v5] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0, __v1, __v2, __v3, __v4, __v5] = arr;
                 Self(__v0, __v1, __v2, __v3, __v4, __v5)
             }
         }
@@ -123,17 +123,17 @@ fn test_tuple_struct_complex_type() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<Vec<i32>, 2> for VecPair {
-            const N_ATOMS: usize = 2;
+        impl ::struct_to_array::StructToArray<Vec<i32> > for VecPair {
+            type Arr = [Vec<i32>; 2];
 
             #[inline]
-            fn to_arr(self) -> [Vec<i32>; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0, self.1]
             }
 
             #[inline]
-            fn from_arr(a: [Vec<i32>; 2]) -> Self {
-                let [__v0, __v1] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0, __v1] = arr;
                 Self(__v0, __v1)
             }
         }
@@ -150,17 +150,17 @@ fn test_tuple_struct_with_pub() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl ::struct_to_array::StructToArray<f64, 2> for PublicPair {
-            const N_ATOMS: usize = 2;
+        impl ::struct_to_array::StructToArray<f64> for PublicPair {
+            type Arr = [f64; 2];
 
             #[inline]
-            fn to_arr(self) -> [f64; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0, self.1]
             }
 
             #[inline]
-            fn from_arr(a: [f64; 2]) -> Self {
-                let [__v0, __v1] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0, __v1] = arr;
                 Self(__v0, __v1)
             }
         }

@@ -18,17 +18,17 @@ fn test_generic_type_single_param() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<T> ::struct_to_array::StructToArray<T, 2> for GenericPair<T> {
-            const N_ATOMS: usize = 2;
+        impl<T> ::struct_to_array::StructToArray<T> for GenericPair<T> {
+            type Arr = [T; 2];
 
             #[inline]
-            fn to_arr(self) -> [T; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [T; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
@@ -48,17 +48,17 @@ fn test_generic_type_with_bounds() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<T: Clone> ::struct_to_array::StructToArray<T, 2> for BoundedPair<T> {
-            const N_ATOMS: usize = 2;
+        impl<T: Clone> ::struct_to_array::StructToArray<T> for BoundedPair<T> {
+            type Arr = [T; 2];
 
             #[inline]
-            fn to_arr(self) -> [T; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [T; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
@@ -81,20 +81,20 @@ fn test_generic_type_where_clause() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<T> ::struct_to_array::StructToArray<T, 2> for WherePair<T>
+        impl<T> ::struct_to_array::StructToArray<T> for WherePair<T>
         where
             T: Clone + Send,
         {
-            const N_ATOMS: usize = 2;
+            type Arr = [T; 2];
 
             #[inline]
-            fn to_arr(self) -> [T; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [T; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
@@ -111,17 +111,17 @@ fn test_generic_tuple_struct() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<T> ::struct_to_array::StructToArray<T, 3> for GenericTriple<T> {
-            const N_ATOMS: usize = 3;
+        impl<T> ::struct_to_array::StructToArray<T> for GenericTriple<T> {
+            type Arr = [T; 3];
 
             #[inline]
-            fn to_arr(self) -> [T; 3] {
+            fn to_arr(self) -> Self::Arr {
                 [self.0, self.1, self.2]
             }
 
             #[inline]
-            fn from_arr(a: [T; 3]) -> Self {
-                let [__v0, __v1, __v2] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [__v0, __v1, __v2] = arr;
                 Self(__v0, __v1, __v2)
             }
         }
@@ -141,17 +141,17 @@ fn test_lifetime_parameters() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<'a> ::struct_to_array::StructToArray<&'a str, 2> for RefPair<'a> {
-            const N_ATOMS: usize = 2;
+        impl<'a> ::struct_to_array::StructToArray<&'a str> for RefPair<'a> {
+            type Arr = [&'a str; 2];
 
             #[inline]
-            fn to_arr(self) -> [&'a str; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [&'a str; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
@@ -171,17 +171,17 @@ fn test_multiple_lifetimes() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<'a, 'b> ::struct_to_array::StructToArray<&'a str, 2> for MultiRefPair<'a, 'b> {
-            const N_ATOMS: usize = 2;
+        impl<'a, 'b> ::struct_to_array::StructToArray<&'a str> for MultiRefPair<'a, 'b> {
+            type Arr = [&'a str; 2];
 
             #[inline]
-            fn to_arr(self) -> [&'a str; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [&'a str; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
@@ -201,17 +201,17 @@ fn test_const_generic_in_field_type() {
 
     let actual = expand_struct_to_array(input);
     let expected = quote! {
-        impl<const N: usize> ::struct_to_array::StructToArray<[u8; N], 2> for ArrayPair<N> {
-            const N_ATOMS: usize = 2;
+        impl<const N: usize> ::struct_to_array::StructToArray<[u8; N]> for ArrayPair<N> {
+            type Arr = [[u8; N]; 2];
 
             #[inline]
-            fn to_arr(self) -> [[u8; N]; 2] {
+            fn to_arr(self) -> Self::Arr {
                 [self.first, self.second]
             }
 
             #[inline]
-            fn from_arr(a: [[u8; N]; 2]) -> Self {
-                let [first, second] = a;
+            fn from_arr(arr: Self::Arr) -> Self {
+                let [first, second] = arr;
                 Self { first, second }
             }
         }
