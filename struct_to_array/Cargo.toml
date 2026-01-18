@@ -1,6 +1,6 @@
 [package]
 name = "struct_to_array"
-version = "0.2.1"
+version = "0.2.0"
 edition = "2024"
 authors = ["struct_to_array contributors"]
 description = "Convert between homogeneous structs and fixed-size arrays"
@@ -12,7 +12,7 @@ keywords = ["struct", "array", "conversion", "derive", "macro"]
 categories = ["data-structures", "no-std", "rust-patterns"]
 
 [dependencies]
-struct_to_array_derive = { version = "0.1.0", path = "../struct_to_array_derive" }
+struct_to_array_derive = { version = "0.2.0", path = "../struct_to_array_derive" }
 
 [dev-dependencies]
 proptest = "1"
