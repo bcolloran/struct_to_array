@@ -86,22 +86,6 @@ proptest! {
     }
 }
 
-// Test that from_vec panics with wrong length
-proptest! {
-    #[test]
-    #[should_panic(expected = "Input vec length")]
-    fn prop_from_vec_panics_on_wrong_length_too_short(x: f32) {
-        // Point2D expects 2 elements, providing only 1
-        let vec = vec![x];
-        let _point = Point2D::from_vec(&vec);
-    }
-
-    #[test]
-    #[should_panic(expected = "Input vec length")]
-    fn prop_from_vec_panics_on_wrong_length_too_long(x: f32, y: f32, z: f32) {
-        // Point2D expects 2 elements, providing 3
-        prop_assume!(!x.is_nan() && !y.is_nan() && !z.is_nan());
-        let vec = vec![x, y, z];
-        let _point = Point2D::from_vec(&vec);
-    }
-}
+// Note: Testing panic behavior with proptest doesn't work well because proptest
+// tries to shrink failures, which conflicts with expected panics.
+// These tests are now in integration.rs and regression_specific_cases.rs instead.

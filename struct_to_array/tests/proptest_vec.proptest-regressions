@@ -4,5 +4,8 @@
 #
 # It is recommended to check this file in to source control so that
 # everyone who runs the test benefits from these saved cases.
-cc 63c31064a7479b4cd56d0b30ab0111f901c6ce320c569575a1bd92f47e5eeb2c # shrinks to x = 0.0
-cc 98482495f07d1a92f7ed1bfcda73e819c1d765482705514d0c3f6899449e6fc2 # shrinks to x = 0.0, y = 0.0, z = 0.0
+# 
+# Previous regressions have been resolved and moved to specific test cases
+# in regression_specific_cases.rs:
+# - cc 63c31064a7479b4cd56d0b30ab0111f901c6ce320c569575a1bd92f47e5eeb2c # shrinks to x = 0.0
+# - cc 98482495f07d1a92f7ed1bfcda73e819c1d765482705514d0c3f6899449e6fc2 # shrinks to x = 0.0, y = 0.0, z = 0.0
